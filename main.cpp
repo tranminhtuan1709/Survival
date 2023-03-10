@@ -59,17 +59,17 @@ int main(int argc, char* argv[])
 		if (select == 2)
 		{
 			run(raiden.runFrame, raiden.currentCharFrame, app.pen, e, raiden.currentCharPos, raiden.speed, currentPosition, direct);
-			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_N)
+			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
-				electroAttack(raiden, "N", app.pen);
+				electroAttack(raiden, "N", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_E)
 			{
-				electroAttack(raiden, "E", app.pen);
+				electroAttack(raiden, "E", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_Q)
 			{
-				electroAttack(raiden, "Q", app.pen);
+				electroAttack(raiden, "Q", app.pen, app.mouseCoordinate, direct);
 			}
 		}
 		if (select == 3)
@@ -91,22 +91,22 @@ int main(int argc, char* argv[])
 		if (select == 4)
 		{
 			run(bennet.runFrame, bennet.currentCharFrame, app.pen, e, bennet.currentCharPos, bennet.speed, currentPosition, direct);
-			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_N)
+			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
-				pyroAttack(bennet, "N", app.pen);
+				pyroAttack(bennet, "N", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_E)
 			{
-				pyroAttack(bennet, "E", app.pen);
+				pyroAttack(bennet, "E", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_Q)
 			{
-				pyroAttack(bennet, "Q", app.pen);
+				pyroAttack(bennet, "Q", app.pen, app.mouseCoordinate, direct);
 			}
 		}
 		anemoAttack(venti, "", app.pen, app.mouseCoordinate, direct);
-		pyroAttack(bennet, "", app.pen);
-		electroAttack(raiden, "", app.pen);
+		pyroAttack(bennet, "", app.pen, app.mouseCoordinate, direct);
+		electroAttack(raiden, "", app.pen, app.mouseCoordinate, direct);
 		hydroAttack(xingqiu, "", app.pen);
 		SDL_RenderPresent(app.pen);
 	}
