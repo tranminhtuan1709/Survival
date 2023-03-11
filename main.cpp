@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 		}
 		if (select == 1)
 		{
+			xingqiu.use_E_skill = false;
 			run(venti.runFrame, venti.currentCharFrame, app.pen, e, venti.currentCharPos, venti.speed, currentPosition, direct);
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
 		}
 		if (select == 2)
 		{
+			xingqiu.use_E_skill = false;
 			run(raiden.runFrame, raiden.currentCharFrame, app.pen, e, raiden.currentCharPos, raiden.speed, currentPosition, direct);
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
@@ -75,21 +77,23 @@ int main(int argc, char* argv[])
 		if (select == 3)
 		{
 			run(xingqiu.runFrame, xingqiu.currentCharFrame, app.pen, e, xingqiu.currentCharPos, xingqiu.speed, currentPosition, direct);
-			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_N)
+			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
-				hydroAttack(xingqiu, "N", app.pen);
+				hydroAttack(xingqiu, "N", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_E)
 			{
-				hydroAttack(xingqiu, "E", app.pen);
+				xingqiu.use_E_skill = true;
+				hydroAttack(xingqiu, "E", app.pen, app.mouseCoordinate, direct);
 			}
 			if (e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_Q)
 			{
-				hydroAttack(xingqiu, "Q", app.pen);
+				hydroAttack(xingqiu, "Q", app.pen, app.mouseCoordinate, direct);
 			}
 		}
 		if (select == 4)
 		{
+			xingqiu.use_E_skill = false;
 			run(bennet.runFrame, bennet.currentCharFrame, app.pen, e, bennet.currentCharPos, bennet.speed, currentPosition, direct);
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
@@ -105,9 +109,9 @@ int main(int argc, char* argv[])
 			}
 		}
 		anemoAttack(venti, "", app.pen, app.mouseCoordinate, direct);
-		pyroAttack(bennet, "", app.pen, app.mouseCoordinate, direct);
 		electroAttack(raiden, "", app.pen, app.mouseCoordinate, direct);
-		hydroAttack(xingqiu, "", app.pen);
+		hydroAttack(xingqiu, "", app.pen, app.mouseCoordinate, direct);
+		pyroAttack(bennet, "", app.pen, app.mouseCoordinate, direct);
 		SDL_RenderPresent(app.pen);
 	}
 	return 0;

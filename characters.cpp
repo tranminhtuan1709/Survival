@@ -95,7 +95,7 @@ hydroChar::hydroChar(int x, int y, SDL_Renderer* render)
 	loadImage(attackFrame, "Image/Characters/HydroChar/attack", 4, render);
 	loadImage(dieFrame, "Image/Characters/HydroChar/die", 5, render);
 	loadImage(normalFrame, "Image/Characters/HydroChar/N", 4, render);
-	loadImage(elementalFrame, "Image/Characters/HydroChar/E", 1, render);
+	loadImage(elementalFrame, "Image/Characters/HydroChar/E", 4, render);
 	loadImage(ultiFrame, "Image/Characters/HydroChar/Q", 1, render);
 }
 

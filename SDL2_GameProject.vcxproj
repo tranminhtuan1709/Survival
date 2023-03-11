@@ -30,6 +30,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="initGame.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="monsters.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -84,6 +84,7 @@ public:
 	int atk;
 	int def;
 	int speed;
+	bool use_E_skill = false;
 
 	int currentCharFrame;
 	SDL_Rect currentCharPos;

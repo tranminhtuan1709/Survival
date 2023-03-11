@@ -335,7 +335,7 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 	}
 }
 
-void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
+void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
 {
 	SDL_Rect p1{};
 	SDL_Rect p2{};
@@ -347,15 +347,39 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
 	SDL_Rect p8{};
 	if (type == "N" && cooldown(char3.previousTimeN, 100) == true)
 	{
-		p1 = { char3.currentCharPos.x + 50, char3.currentCharPos.y + 25, 50, 50 };
-		bullet b(type, p1, 0, SDL_GetTicks(), 20);
-		char3.bulletOnScreen.push_back(b);
+		if (char3.currentCharPos.x <= dot.x)
+		{
+			if (direction == "left")
+			{
+				direction = "right";
+			}
+			p1 = { char3.currentCharPos.x + 50, char3.currentCharPos.y + 25, 50, 50 };
+			bullet bull(type, p1, 0, SDL_GetTicks(), 20);
+			bull.a = (1.0 * dot.y - 1.0 * p1.y) / (1.0 * dot.x - 1.0 * p1.x);
+			bull.b = (1.0 * dot.x * 1.0 * p1.y - 1.0 * p1.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p1.x);
+			bull.flip = SDL_FLIP_NONE;
+			char3.bulletOnScreen.push_back(bull);
+		}
+		else
+		{
+			if (direction == "right")
+			{
+				direction = "left";
+			}
+			p1 = { char3.currentCharPos.x, char3.currentCharPos.y + 25, 50, 50 };
+			bullet bull(type, p1, 0, SDL_GetTicks(), 20);
+			bull.a = (1.0 * dot.y - 1.0 * p1.y) / (1.0 * dot.x - 1.0 * p1.x);
+			bull.b = (1.0 * dot.x * 1.0 * p1.y - 1.0 * p1.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p1.x);
+			bull.flip = SDL_FLIP_HORIZONTAL;
+			char3.bulletOnScreen.push_back(bull);
+		}
 	}
 	else if (type == "E" && cooldown(char3.previousTimeE, 2000) == true)
 	{
-		p1 = { char3.currentCharPos.x + 50, char3.currentCharPos.y + 25, 60, 50 };
-		bullet b(type, p1, 0, SDL_GetTicks(), 0);
-		char3.bulletOnScreen.push_back(b);
+		bullet bull(type, char3.currentCharPos, 0, SDL_GetTicks(), 0);
+		bull.startTime = SDL_GetTicks();
+		bull.a = 10;
+		char3.bulletOnScreen.push_back(bull);
 	}
 	else if (type == "Q" && cooldown(char3.previousTimeQ, 4000) == true)
 	{
@@ -375,6 +399,36 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
 		bullet b6(type, p6, 0, SDL_GetTicks(), 600);
 		bullet b7(type, p7, 0, SDL_GetTicks(), 700);
 		bullet b8(type, p8, 0, SDL_GetTicks(), 800);
+		if (char3.currentCharPos.x <= dot.x)
+		{
+			if (direction == "left")
+			{
+				direction = "right";
+			}
+			b1.flip = SDL_FLIP_NONE;
+			b2.flip = SDL_FLIP_NONE;
+			b3.flip = SDL_FLIP_NONE;
+			b4.flip = SDL_FLIP_NONE;
+			b5.flip = SDL_FLIP_NONE;
+			b6.flip = SDL_FLIP_NONE;
+			b7.flip = SDL_FLIP_NONE;
+			b8.flip = SDL_FLIP_NONE;
+		}
+		else
+		{
+			if (direction == "right")
+			{
+				direction = "left";
+			}
+			b1.flip = SDL_FLIP_HORIZONTAL;
+			b2.flip = SDL_FLIP_HORIZONTAL;
+			b3.flip = SDL_FLIP_HORIZONTAL;
+			b4.flip = SDL_FLIP_HORIZONTAL;
+			b5.flip = SDL_FLIP_HORIZONTAL;
+			b6.flip = SDL_FLIP_HORIZONTAL;
+			b7.flip = SDL_FLIP_HORIZONTAL;
+			b8.flip = SDL_FLIP_HORIZONTAL;
+		}
 		char3.bulletOnScreen.push_back(b1);
 		char3.bulletOnScreen.push_back(b2);
 		char3.bulletOnScreen.push_back(b3);
@@ -395,23 +449,41 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
 			}
 			else if (cooldown(char3.bulletOnScreen[i].previousTime, char3.bulletOnScreen[i].step) == true)
 			{
-				char3.bulletOnScreen[i].currentBulletPos.x += 20;
-				SDL_RenderCopy(render, char3.normalFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos);
+				if (char3.bulletOnScreen[i].flip == SDL_FLIP_NONE)
+				{
+					char3.bulletOnScreen[i].currentBulletPos.x += 20;
+				}
+				else
+				{
+					char3.bulletOnScreen[i].currentBulletPos.x -= 20;
+				}
+				char3.bulletOnScreen[i].currentBulletPos.y = round(char3.bulletOnScreen[i].a * char3.bulletOnScreen[i].currentBulletPos.x + char3.bulletOnScreen[i].b);
+				SDL_RenderCopyEx(render, char3.normalFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos, atan(char3.bulletOnScreen[i].a) * (180 / 3.141592654), NULL, char3.bulletOnScreen[i].flip);
 				char3.bulletOnScreen[i].currentBulletFrame = (char3.bulletOnScreen[i].currentBulletFrame + 1) % (int) char3.normalFrame.size();
 			}
 		}
 		else if (char3.bulletOnScreen[i].type == "E")
 		{
-			if (char3.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char3.bulletOnScreen[i].currentBulletPos.x < 0 || char3.bulletOnScreen[i].currentBulletPos.y < 0 || char3.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT)
+			if (cooldown(char3.bulletOnScreen[i].previousTime, char3.bulletOnScreen[i].step) == true)
+			{
+				SDL_Rect pos = char3.currentCharPos;
+				pos.x -= 100;
+				pos.y -= 100;
+				pos.w += 200;
+				pos.h += 200;
+				SDL_RenderCopyEx(render, char3.elementalFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &pos, char3.bulletOnScreen[i].a, NULL, SDL_FLIP_NONE);
+				char3.bulletOnScreen[i].a += 10;
+				char3.bulletOnScreen[i].currentBulletFrame = (char3.bulletOnScreen[i].currentBulletFrame + 1) % (int)char3.elementalFrame.size();
+			}
+			if (cooldown(char3.bulletOnScreen[i].startTime, 10000) == true)
 			{
 				char3.bulletOnScreen.erase(char3.bulletOnScreen.begin() + i, char3.bulletOnScreen.begin() + i + 1);
 				i--;
 			}
-			else if (cooldown(char3.bulletOnScreen[i].previousTime, char3.bulletOnScreen[i].step) == true)
+			if (char3.use_E_skill == false)
 			{
-				char3.bulletOnScreen[i].currentBulletPos.x += 15;
-				SDL_RenderCopy(render, char3.elementalFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos);
-				char3.bulletOnScreen[i].currentBulletFrame = (char3.bulletOnScreen[i].currentBulletFrame + 1) % (int) char3.elementalFrame.size();
+				char3.bulletOnScreen.erase(char3.bulletOnScreen.begin() + i, char3.bulletOnScreen.begin() + i + 1);
+				i--;
 			}
 		}
 		else if (char3.bulletOnScreen[i].type == "Q")
@@ -423,13 +495,20 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
 			}
 			else if (cooldown(char3.bulletOnScreen[i].previousTime, char3.bulletOnScreen[i].step) == true)
 			{
-				char3.bulletOnScreen[i].currentBulletPos.x += 100;
-				SDL_RenderCopy(render, char3.ultiFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos);
+				if (char3.bulletOnScreen[i].flip == SDL_FLIP_NONE)
+				{
+					char3.bulletOnScreen[i].currentBulletPos.x += 100;
+				}
+				else
+				{
+					char3.bulletOnScreen[i].currentBulletPos.x -= 100;
+				}
+				SDL_RenderCopyEx(render, char3.ultiFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos, 0, NULL, char3.bulletOnScreen[i].flip);
 				char3.bulletOnScreen[i].step = 0;
 			}
 			else
 			{
-				SDL_RenderCopy(render, char3.ultiFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos);
+				SDL_RenderCopyEx(render, char3.ultiFrame[char3.bulletOnScreen[i].currentBulletFrame], NULL, &char3.bulletOnScreen[i].currentBulletPos, 0, NULL, char3.bulletOnScreen[i].flip);
 			}
 		}
 	}
@@ -438,7 +517,7 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render)
 void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
 {
 	SDL_Rect p{};
-	if (type == "N" && cooldown(char4.previousTimeN, 100))
+	if (type == "N" && cooldown(char4.previousTimeN, 50))
 	{
 		if (char4.currentCharPos.x <= dot.x)
 		{
@@ -467,7 +546,7 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			char4.bulletOnScreen.push_back(bull);
 		}
 	}
-	if (type == "E" && cooldown(char4.previousTimeE, 500))
+	if (type == "E" && cooldown(char4.previousTimeE, 300))
 	{
 		if (char4.currentCharPos.x <= dot.x)
 		{
@@ -538,11 +617,11 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			{
 				if (char4.bulletOnScreen[i].flip == SDL_FLIP_NONE)
 				{
-					char4.bulletOnScreen[i].currentBulletPos.x += 20;
+					char4.bulletOnScreen[i].currentBulletPos.x += 40;
 				}
 				else
 				{
-					char4.bulletOnScreen[i].currentBulletPos.x -= 20;
+					char4.bulletOnScreen[i].currentBulletPos.x -= 40;
 				}
 				char4.bulletOnScreen[i].currentBulletPos.y = round(char4.bulletOnScreen[i].a * char4.bulletOnScreen[i].currentBulletPos.x + char4.bulletOnScreen[i].b);
 				SDL_RenderCopyEx(render, char4.normalFrame[char4.bulletOnScreen[i].currentBulletFrame], NULL, &char4.bulletOnScreen[i].currentBulletPos, atan(char4.bulletOnScreen[i].a)* (180 / 3.141592654), NULL, char4.bulletOnScreen[i].flip);

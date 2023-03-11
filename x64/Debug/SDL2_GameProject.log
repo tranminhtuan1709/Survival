@@ -1,4 +1,2 @@
-﻿  game.cpp
-F:\Code\SDL2_GameProject\SDL2_GameProject\game.cpp(52,21): warning C4018: '>=': signed/unsigned mismatch
-F:\Code\SDL2_GameProject\SDL2_GameProject\game.cpp(126,121): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+﻿  monsters.cpp
   SDL2_GameProject.vcxproj -> F:\Code\SDL2_GameProject\x64\Debug\SDL2_GameProject.exe
