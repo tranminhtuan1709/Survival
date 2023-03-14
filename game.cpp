@@ -44,7 +44,6 @@ void run(vector <SDL_Texture*> v, int& currentFrame, SDL_Renderer* render, SDL_E
 		}
 	}
 	currentPosition = position;
-	SDL_Delay(15);
 }
 
 bool cooldown(int& previousTime, int step)
@@ -60,7 +59,7 @@ bool cooldown(int& previousTime, int step)
 	}
 }
 
-void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
+void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
 	if (type == "N" && cooldown(char1.previousTimeN, 100) == true)
@@ -206,7 +205,7 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 	}
 }
 
-void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
+void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
 	if (type == "N" && cooldown(char2.previousTimeN, 100) == true)
@@ -335,7 +334,7 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 	}
 }
 
-void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
+void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p1{};
 	SDL_Rect p2{};
@@ -514,7 +513,7 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 	}
 }
 
-void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point dot, string& direction)
+void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
 	if (type == "N" && cooldown(char4.previousTimeN, 50))

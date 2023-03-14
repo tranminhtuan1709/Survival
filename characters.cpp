@@ -37,8 +37,9 @@ anemoChar::anemoChar(int x, int y, SDL_Renderer* render)
 	loadImage(ultiFrame, "Image/Characters/AnemoChar/Q", 5, render);
 }
 
-void anemoChar::updateStat(string type)
+void anemoChar::updateStat(string type, anemoChar& char1, int& currentHP)
 {
+	char1.hp = currentHP;
 	if (type == "ATK") atk += 50;
 	else if (type == "HP") hp += 500;
 	else if (type == "DEF") def += 10;
@@ -68,8 +69,9 @@ electroChar::electroChar(int x, int y, SDL_Renderer* render)
 	loadImage(ultiFrame, "Image/Characters/ElectroChar/Q", 10, render);
 }
 
-void electroChar::updateStat(string type)
+void electroChar::updateStat(string type, anemoChar& char1, int& currentHP)
 {
+	char1.hp = currentHP;
 	if (type == "ATK") atk += 50;
 	else if (type == "HP") hp += 500;
 	else if (type == "DEF") def += 10;
@@ -99,8 +101,9 @@ hydroChar::hydroChar(int x, int y, SDL_Renderer* render)
 	loadImage(ultiFrame, "Image/Characters/HydroChar/Q", 1, render);
 }
 
-void hydroChar::updateStat(string type)
+void hydroChar::updateStat(string type, anemoChar& char1, int& currentHP)
 {
+	char1.hp = currentHP;
 	if (type == "ATK") atk += 50;
 	else if (type == "HP") hp += 500;
 	else if (type == "DEF") def += 10;
@@ -130,8 +133,9 @@ pyroChar::pyroChar(int x, int y, SDL_Renderer* render)
 	loadImage(ultiFrame, "Image/Characters/PyroChar/E_blue", 2, render);
 }
 
-void pyroChar::updateStat(string type)
+void pyroChar::updateStat(string type, anemoChar& char1, int& currentHP)
 {
+	char1.hp = currentHP;
 	if (type == "ATK") atk += 50;
 	if (type == "HP") hp += 500;
 	if (type == "DEF") def += 10;

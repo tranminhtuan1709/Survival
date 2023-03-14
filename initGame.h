@@ -12,6 +12,9 @@
 #include <algorithm>
 #include <map>
 #include <vector>
+#include <time.h>
+#include <cstdlib>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -35,5 +38,27 @@ public:
 };
 
 void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render);
+
+class CharacterOnScreen
+{
+public:
+	SDL_Rect currentCharPosition;
+	string currentCharDirection;
+	int currentCharSelected;
+	int currentCharHP;
+};
+
+class MonsterOnscreen
+{
+public:
+	SDL_Rect currentMonsPos;
+	SDL_RendererFlip flip;
+	int currentMonsHP;
+	int currentMonsSpeed;
+	int currentMonsFrame;
+	int delayFrameTime;
+	string typeOfMons;
+	vector <MonsterOnscreen> allMonster;
+};
 
 #endif initGame_h_

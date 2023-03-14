@@ -45,7 +45,7 @@ public:
 	vector <SDL_Texture*> ultiFrame;
 
 	anemoChar(int x, int y, SDL_Renderer* render);
-	void updateStat(string type);
+	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class electroChar
@@ -74,7 +74,7 @@ public:
 	vector <SDL_Texture*> ultiFrame;
 
 	electroChar(int x, int y, SDL_Renderer* render);
-	void updateStat(string type);
+	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class hydroChar
@@ -104,7 +104,7 @@ public:
 	vector <SDL_Texture*> ultiFrame;
 
 	hydroChar(int x, int y, SDL_Renderer* render);
-	void updateStat(string type);
+	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class pyroChar
@@ -133,7 +133,7 @@ public:
 	vector <SDL_Texture*> ultiFrame;
 
 	pyroChar(int x, int y, SDL_Renderer* render);
-	void updateStat(string type);
+	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 #endif characters_h_
