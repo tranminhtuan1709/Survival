@@ -12,7 +12,8 @@ public:
 	Monster1(SDL_Renderer* render);
 };
 
-void randomMonster(MonsterOnscreen& monster);
+void randomMonster(MonsterProperties& monster, MonsterOnscreen& defaulMons);
 void chase(MonsterOnscreen& monster, CharacterOnScreen& characterOnScreen, SDL_Renderer* render, Monster1& mons1);
+void beAttacked(anemoChar& char1, electroChar& char2, hydroChar& char3, pyroChar& char4, MonsterOnscreen& defaultMons);
 
 #endif monsters_h_

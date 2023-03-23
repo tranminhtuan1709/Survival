@@ -62,7 +62,7 @@ bool cooldown(int& previousTime, int step)
 void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
-	if (type == "N" && cooldown(char1.previousTimeN, 100) == true)
+	if (type == "N" && cooldown(char1.previousTimeN, 500) == true)
 	{
 		if (char1.currentCharPos.x <= dot.x)
 		{
@@ -72,6 +72,8 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x + 50, char1.currentCharPos.y + 25, 20, 10 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 20;
+			bull.bulletSizeH = 10;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -85,6 +87,8 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x, char1.currentCharPos.y + 25, 20, 10 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 20;
+			bull.bulletSizeH = 10;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -101,6 +105,8 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x + 50, char1.currentCharPos.y + 25, 50, 50 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 5);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -114,6 +120,8 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x, char1.currentCharPos.y + 25, 50, 50 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 5);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -130,6 +138,8 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x + 50, char1.currentCharPos.y - 30, 100, 100 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 100;
+			bull.bulletSizeH = 100;
 			bull.flip = SDL_FLIP_NONE;
 			char1.bulletOnScreen.push_back(bull);
 		}
@@ -141,13 +151,15 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p = { char1.currentCharPos.x, char1.currentCharPos.y - 30, 100, 100 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 100;
+			bull.bulletSizeH = 100;
 			bull.flip = SDL_FLIP_HORIZONTAL;
 			char1.bulletOnScreen.push_back(bull);
 		}
 	}
 	for (int i = 0; i < char1.bulletOnScreen.size(); i++)
 	{
-		if (char1.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char1.bulletOnScreen[i].currentBulletPos.x < 0 || char1.bulletOnScreen[i].currentBulletPos.y < 0 || char1.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT)
+		if (char1.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char1.bulletOnScreen[i].currentBulletPos.x < 0 || char1.bulletOnScreen[i].currentBulletPos.y < 0 || char1.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT || char1.bulletOnScreen[i].check == false)
 		{
 			char1.bulletOnScreen.erase(char1.bulletOnScreen.begin() + i, char1.bulletOnScreen.begin() + i + 1);
 			i--;
@@ -208,7 +220,7 @@ void anemoAttack(anemoChar& char1, string type, SDL_Renderer* render, SDL_Point 
 void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
-	if (type == "N" && cooldown(char2.previousTimeN, 100) == true)
+	if (type == "N" && cooldown(char2.previousTimeN, 500) == true)
 	{
 		if (char2.currentCharPos.x <= dot.x)
 		{
@@ -218,6 +230,8 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 			}
 			p = { char2.currentCharPos.x + 50, char2.currentCharPos.y + 25, 800, 25 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 800;
+			bull.bulletSizeH = 25;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
 			char2.bulletOnScreen.push_back(bull);
@@ -230,6 +244,8 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 			}
 			p = { char2.currentCharPos.x - 800, char2.currentCharPos.y + 25, 800, 25 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 800;
+			bull.bulletSizeH = 25;
 			bull.a = (1.0 * dot.y - 1.0 * (char2.currentCharPos.y + 25)) / (1.0 * dot.x - 1.0 * char2.currentCharPos.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
 			char2.bulletOnScreen.push_back(bull);
@@ -245,6 +261,8 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 			}
 			p = { char2.currentCharPos.x + 50, char2.currentCharPos.y + 25, 60, 50 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 15);
+			bull.bulletSizeW = 60;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -258,6 +276,8 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 			}
 			p = { char2.currentCharPos.x, char2.currentCharPos.y + 25, 60, 50 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 15);
+			bull.bulletSizeW = 60;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -268,6 +288,8 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 	{
 		p = { dot.x, dot.y - 250, 150, 250 };
 		bullet b(type, p, 0, SDL_GetTicks(), 100);
+		b.bulletSizeW = 150;
+		b.bulletSizeH = 250;
 		b.startTime = SDL_GetTicks();
 		char2.bulletOnScreen.push_back(b);
 	}
@@ -297,7 +319,7 @@ void electroAttack(electroChar& char2, string type, SDL_Renderer* render, SDL_Po
 		}
 		else if (char2.bulletOnScreen[i].type == "E")
 		{
-			if (char2.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char2.bulletOnScreen[i].currentBulletPos.x < 0 || char2.bulletOnScreen[i].currentBulletPos.y < 0 || char2.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT)
+			if (char2.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char2.bulletOnScreen[i].currentBulletPos.x < 0 || char2.bulletOnScreen[i].currentBulletPos.y < 0 || char2.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT || char2.bulletOnScreen[i].check == false)
 			{
 				char2.bulletOnScreen.erase(char2.bulletOnScreen.begin() + i, char2.bulletOnScreen.begin() + i + 1);
 				i--;
@@ -344,7 +366,7 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 	SDL_Rect p6{};
 	SDL_Rect p7{};
 	SDL_Rect p8{};
-	if (type == "N" && cooldown(char3.previousTimeN, 100) == true)
+	if (type == "N" && cooldown(char3.previousTimeN, 500) == true)
 	{
 		if (char3.currentCharPos.x <= dot.x)
 		{
@@ -354,6 +376,8 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p1 = { char3.currentCharPos.x + 50, char3.currentCharPos.y + 25, 50, 50 };
 			bullet bull(type, p1, 0, SDL_GetTicks(), 20);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p1.y) / (1.0 * dot.x - 1.0 * p1.x);
 			bull.b = (1.0 * dot.x * 1.0 * p1.y - 1.0 * p1.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p1.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -367,6 +391,8 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 			}
 			p1 = { char3.currentCharPos.x, char3.currentCharPos.y + 25, 50, 50 };
 			bullet bull(type, p1, 0, SDL_GetTicks(), 20);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 50;
 			bull.a = (1.0 * dot.y - 1.0 * p1.y) / (1.0 * dot.x - 1.0 * p1.x);
 			bull.b = (1.0 * dot.x * 1.0 * p1.y - 1.0 * p1.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p1.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -398,6 +424,22 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 		bullet b6(type, p6, 0, SDL_GetTicks(), 600);
 		bullet b7(type, p7, 0, SDL_GetTicks(), 700);
 		bullet b8(type, p8, 0, SDL_GetTicks(), 800);
+		b1.bulletSizeW = 80;
+		b1.bulletSizeH = 10;
+		b2.bulletSizeW = 80;
+		b2.bulletSizeH = 10;
+		b3.bulletSizeW = 80;
+		b3.bulletSizeH = 10;
+		b4.bulletSizeW = 80;
+		b4.bulletSizeH = 10;
+		b5.bulletSizeW = 80;
+		b5.bulletSizeH = 10;
+		b6.bulletSizeW = 80;
+		b6.bulletSizeH = 10;
+		b7.bulletSizeW = 80;
+		b7.bulletSizeH = 10;
+		b8.bulletSizeW = 80;
+		b8.bulletSizeH = 10;
 		if (char3.currentCharPos.x <= dot.x)
 		{
 			if (direction == "left")
@@ -441,7 +483,7 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 	{
 		if (char3.bulletOnScreen[i].type == "N")
 		{
-			if (char3.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char3.bulletOnScreen[i].currentBulletPos.x < 0 || char3.bulletOnScreen[i].currentBulletPos.y < 0 || char3.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT)
+			if (char3.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char3.bulletOnScreen[i].currentBulletPos.x < 0 || char3.bulletOnScreen[i].currentBulletPos.y < 0 || char3.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT || char3.bulletOnScreen[i].check == false)
 			{
 				char3.bulletOnScreen.erase(char3.bulletOnScreen.begin() + i, char3.bulletOnScreen.begin() + i + 1);
 				i--;
@@ -516,7 +558,7 @@ void hydroAttack(hydroChar& char3, string type, SDL_Renderer* render, SDL_Point 
 void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point dot, string& direction, MonsterOnscreen& monster)
 {
 	SDL_Rect p{};
-	if (type == "N" && cooldown(char4.previousTimeN, 50))
+	if (type == "N" && cooldown(char4.previousTimeN, 500))
 	{
 		if (char4.currentCharPos.x <= dot.x)
 		{
@@ -526,6 +568,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x + 50, char4.currentCharPos.y + 25, 20, 10 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 20;
+			bull.bulletSizeH = 10;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -539,6 +583,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x, char4.currentCharPos.y + 25, 20, 10 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 0);
+			bull.bulletSizeW = 20;
+			bull.bulletSizeH = 10;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -555,6 +601,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x + 50, char4.currentCharPos.y + 25, 40, 20 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 40;
+			bull.bulletSizeH = 20;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -568,6 +616,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x, char4.currentCharPos.y + 25, 40, 20 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 40;
+			bull.bulletSizeH = 20;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -584,6 +634,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x + 50, char4.currentCharPos.y + 25, 50, 40 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 40;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_NONE;
@@ -597,6 +649,8 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 			}
 			p = { char4.currentCharPos.x, char4.currentCharPos.y + 25, 50, 40 };
 			bullet bull(type, p, 0, SDL_GetTicks(), 10);
+			bull.bulletSizeW = 50;
+			bull.bulletSizeH = 40;
 			bull.a = (1.0 * dot.y - 1.0 * p.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.b = (1.0 * dot.x * 1.0 * p.y - 1.0 * p.x * 1.0 * dot.y) / (1.0 * dot.x - 1.0 * p.x);
 			bull.flip = SDL_FLIP_HORIZONTAL;
@@ -605,7 +659,7 @@ void pyroAttack(pyroChar& char4, string type, SDL_Renderer* render, SDL_Point do
 	}
 	for (int i = 0; i < char4.bulletOnScreen.size(); i++)
 	{
-		if (char4.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char4.bulletOnScreen[i].currentBulletPos.x < 0 || char4.bulletOnScreen[i].currentBulletPos.y < 0 || char4.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT)
+		if (char4.bulletOnScreen[i].currentBulletPos.x > SCREEN_WIDTH || char4.bulletOnScreen[i].currentBulletPos.x < 0 || char4.bulletOnScreen[i].currentBulletPos.y < 0 || char4.bulletOnScreen[i].currentBulletPos.y > SCREEN_HEIGHT || char4.bulletOnScreen[i].check == false)
 		{
 			char4.bulletOnScreen.erase(char4.bulletOnScreen.begin() + i, char4.bulletOnScreen.begin() + i + 1);
 			i--;

@@ -13,6 +13,9 @@ public:
 	int step;
 	int existTime;
 	int startTime;
+	int bulletSizeW;
+	int bulletSizeH;
+	bool check;
 	double a;
 	double b;
 	SDL_RendererFlip flip;

@@ -48,7 +48,7 @@ public:
 	int currentCharHP;
 };
 
-class MonsterOnscreen
+class MonsterProperties
 {
 public:
 	SDL_Rect currentMonsPos;
@@ -57,8 +57,15 @@ public:
 	int currentMonsSpeed;
 	int currentMonsFrame;
 	int delayFrameTime;
+	int monSizeW;
+	int monSizeH;
 	string typeOfMons;
-	vector <MonsterOnscreen> allMonster;
+};
+
+class MonsterOnscreen
+{
+public:
+	vector <MonsterProperties> allMonster;
 };
 
 #endif initGame_h_

@@ -10,6 +10,7 @@ int main(int argc, char* argv[])
 		cout << "Can not open game :(" << endl;
 		return 0;
 	}
+
 	CharacterOnScreen defaultChar;
 	anemoChar venti(300, 300, app.pen);
 	electroChar raiden(300, 300, app.pen);
@@ -17,6 +18,7 @@ int main(int argc, char* argv[])
 	pyroChar bennet(300, 300, app.pen);
 	
 	MonsterOnscreen defaulMons;
+	MonsterProperties mp;
 	Monster1 dinosaur(app.pen);
 	int time = SDL_GetTicks();
 
@@ -116,21 +118,21 @@ int main(int argc, char* argv[])
 				pyroAttack(bennet, "Q", app.pen, app.mouseCoordinate, defaultChar.currentCharDirection, defaulMons);
 			}
 		}
-
+		
 		anemoAttack(venti, "", app.pen, app.mouseCoordinate, defaultChar.currentCharDirection, defaulMons);
 		electroAttack(raiden, "", app.pen, app.mouseCoordinate, defaultChar.currentCharDirection, defaulMons);
 		hydroAttack(xingqiu, "", app.pen, app.mouseCoordinate, defaultChar.currentCharDirection, defaulMons);
 		pyroAttack(bennet, "", app.pen, app.mouseCoordinate, defaultChar.currentCharDirection, defaulMons);
 
-
-		if (cooldown(time, 5000) == true)
+		if (cooldown(time, 1000) == true)
 		{
-			randomMonster(defaulMons);
+			randomMonster(mp, defaulMons);
 		}
 		if (defaulMons.allMonster.size() != 0)
 		{
 			chase(defaulMons, defaultChar, app.pen, dinosaur);
 		}
+		beAttacked(venti, raiden, xingqiu, bennet, defaulMons);
 
 		SDL_RenderPresent(app.pen);
 	}

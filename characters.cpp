@@ -9,6 +9,7 @@ bullet::bullet(string s, SDL_Rect pos, int f, int previous, int st)
 	step = st;
 	existTime = 7;
 	startTime = 0;
+	check = true;
 	a = 0;
 	b = 0;
 	flip = SDL_FLIP_NONE;
@@ -17,7 +18,7 @@ bullet::bullet(string s, SDL_Rect pos, int f, int previous, int st)
 anemoChar::anemoChar(int x, int y, SDL_Renderer* render)
 {
 	hp = 1000;
-	atk = 150;
+	atk = 300;
 	def = 20;
 	speed = 10;
 
@@ -49,7 +50,7 @@ void anemoChar::updateStat(string type, anemoChar& char1, int& currentHP)
 electroChar::electroChar(int x, int y, SDL_Renderer* render)
 {
 	hp = 1000;
-	atk = 150;
+	atk = 300;
 	def = 15;
 	speed = 15;
 	
@@ -81,7 +82,7 @@ void electroChar::updateStat(string type, anemoChar& char1, int& currentHP)
 hydroChar::hydroChar(int x, int y, SDL_Renderer* render)
 {
 	hp = 1000;
-	atk = 150;
+	atk = 300;
 	def = 15;
 	speed = 15;
 
@@ -113,7 +114,7 @@ void hydroChar::updateStat(string type, anemoChar& char1, int& currentHP)
 pyroChar::pyroChar(int x, int y, SDL_Renderer* render)
 {
 	hp = 1500;
-	atk = 90;
+	atk = 300;
 	def = 20;
 	speed = 15;
 	
