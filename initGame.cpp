@@ -2,11 +2,12 @@
 
 Game::Game()
 {
+	currentAppTime = SDL_GetTicks();
 	sdlInitResult = SDL_Init(SDL_INIT_EVERYTHING);
 	imgInitResult = (IMG_Init(imgInitFlags) & imgInitFlags);
 	window = SDL_CreateWindow("Demo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	pen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	welcom_screen = IMG_LoadTexture(pen, "welcom.png");
+	welcom_screen = IMG_LoadTexture(pen, "map2.png");
 }
 
 Game::~Game()
@@ -14,6 +15,7 @@ Game::~Game()
 	imgInitFlags = 0;
 	sdlInitResult = 0;
 	imgInitResult = 0;
+	currentAppTime = 0;
 	SDL_DestroyWindow(window);
 	SDL_DestroyTexture(welcom_screen);
 	SDL_DestroyRenderer(pen);

@@ -27,6 +27,7 @@ public:
 	int imgInitFlags = IMG_INIT_PNG;
 	int sdlInitResult;
 	int imgInitResult;
+	int currentAppTime;
 	SDL_Window* window = nullptr;
 	SDL_Renderer* pen = nullptr;
 	SDL_Texture* welcom_screen = nullptr;
@@ -37,35 +38,14 @@ public:
 	bool checkInit();
 };
 
+class Line
+{
+public:
+	double a;
+	double b;
+	double alpha;
+};
+
 void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render);
-
-class CharacterOnScreen
-{
-public:
-	SDL_Rect currentCharPosition;
-	string currentCharDirection;
-	int currentCharSelected;
-	int currentCharHP;
-};
-
-class MonsterProperties
-{
-public:
-	SDL_Rect currentMonsPos;
-	SDL_RendererFlip flip;
-	int currentMonsHP;
-	int currentMonsSpeed;
-	int currentMonsFrame;
-	int delayFrameTime;
-	int monSizeW;
-	int monSizeH;
-	string typeOfMons;
-};
-
-class MonsterOnscreen
-{
-public:
-	vector <MonsterProperties> allMonster;
-};
 
 #endif initGame_h_

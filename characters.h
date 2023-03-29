@@ -8,38 +8,42 @@ class bullet
 public:
 	string type;
 	SDL_Rect currentBulletPos;
+	SDL_Rect boom;
+	int damage;
 	int currentBulletFrame;
-	int previousTime;
+	int previousFrameTime;
 	int step;
 	int existTime;
 	int startTime;
-	int bulletSizeW;
-	int bulletSizeH;
 	bool check;
 	double a;
 	double b;
 	SDL_RendererFlip flip;
-	bullet(string s, SDL_Rect pos, int f, int previous, int st);
+	Line bulletLine;
+	bullet();
 };
 
 class anemoChar
 {
 public:
-	int hp;
+	int HP;
 	int atk;
 	int def;
 	int speed;
 
-	int currentCharFrame;
-	SDL_Rect currentCharPos;
-
-	vector <bullet> bulletOnScreen;
+	int currentHPFrame;
+	int currentRunFrame;
+	int currentAttackFrame;
+	int currentDieFrame;
 
 	int previousTimeN;
 	int previousTimeE;
 	int previousTimeQ;
+	int previousFrameTimeRun;
+	int previousFrameTimeDie;
+	int previousTimeAttack;
 
-	vector <SDL_Texture*> hpFrame;
+	vector <SDL_Texture*> HPFrame;
 	vector <SDL_Texture*> runFrame;
 	vector <SDL_Texture*> attackFrame;
 	vector <SDL_Texture*> dieFrame;
@@ -47,28 +51,32 @@ public:
 	vector <SDL_Texture*> elementalFrame;
 	vector <SDL_Texture*> ultiFrame;
 
-	anemoChar(int x, int y, SDL_Renderer* render);
+	anemoChar();
+	void loadData(SDL_Renderer* render);
 	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class electroChar
 {
 public:
-	int hp;
+	int HP;
 	int atk;
 	int def;
 	int speed;
 
-	int currentCharFrame;
-	SDL_Rect currentCharPos;
-
-	vector <bullet> bulletOnScreen;
+	int currentHPFrame;
+	int currentRunFrame;
+	int currentAttackFrame;
+	int currentDieFrame;
 
 	int previousTimeN;
 	int previousTimeE;
 	int previousTimeQ;
+	int previousFrameTimeRun;
+	int previousFrameTimeDie;
+	int previousTimeAttack;
 
-	vector <SDL_Texture*> hpFrame;
+	vector <SDL_Texture*> HPFrame;
 	vector <SDL_Texture*> runFrame;
 	vector <SDL_Texture*> attackFrame;
 	vector <SDL_Texture*> dieFrame;
@@ -76,29 +84,33 @@ public:
 	vector <SDL_Texture*> elementalFrame;
 	vector <SDL_Texture*> ultiFrame;
 
-	electroChar(int x, int y, SDL_Renderer* render);
+	electroChar();
+	void loadData(SDL_Renderer* render);
 	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class hydroChar
 {
 public:
-	int hp;
+	int HP;
 	int atk;
 	int def;
 	int speed;
 	bool use_E_skill = false;
 
-	int currentCharFrame;
-	SDL_Rect currentCharPos;
-
-	vector <bullet> bulletOnScreen;
+	int currentHPFrame;
+	int currentRunFrame;
+	int currentAttackFrame;
+	int currentDieFrame;
 
 	int previousTimeN;
 	int previousTimeE;
 	int previousTimeQ;
+	int previousFrameTimeRun;
+	int previousFrameTimeDie;
+	int previousTimeAttack;
 
-	vector <SDL_Texture*> hpFrame;
+	vector <SDL_Texture*> HPFrame;
 	vector <SDL_Texture*> runFrame;
 	vector <SDL_Texture*> attackFrame;
 	vector <SDL_Texture*> dieFrame;
@@ -106,28 +118,32 @@ public:
 	vector <SDL_Texture*> elementalFrame;
 	vector <SDL_Texture*> ultiFrame;
 
-	hydroChar(int x, int y, SDL_Renderer* render);
+	hydroChar();
+	void loadData(SDL_Renderer* render);
 	void updateStat(string type, anemoChar& char1, int& currentHP);
 };
 
 class pyroChar
 {
 public:
-	int hp;
+	int HP;
 	int atk;
 	int def;
 	int speed;
 
-	int currentCharFrame;
-	SDL_Rect currentCharPos;
-
-	vector <bullet> bulletOnScreen;
+	int currentHPFrame;
+	int currentRunFrame;
+	int currentAttackFrame;
+	int currentDieFrame;
 
 	int previousTimeN;
 	int previousTimeE;
 	int previousTimeQ;
+	int previousFrameTimeRun;
+	int previousFrameTimeDie;
+	int previousTimeAttack;
 
-	vector <SDL_Texture*> hpFrame;
+	vector <SDL_Texture*> HPFrame;
 	vector <SDL_Texture*> runFrame;
 	vector <SDL_Texture*> attackFrame;
 	vector <SDL_Texture*> dieFrame;
@@ -135,8 +151,28 @@ public:
 	vector <SDL_Texture*> elementalFrame;
 	vector <SDL_Texture*> ultiFrame;
 
-	pyroChar(int x, int y, SDL_Renderer* render);
+	pyroChar();
+	void loadData(SDL_Renderer* render);
 	void updateStat(string type, anemoChar& char1, int& currentHP);
+};
+
+class AllCharacters
+{
+public:
+	anemoChar char1;
+	electroChar char2;
+	hydroChar char3;
+	pyroChar char4;
+
+	int selectedChar;
+	int* currentCharHP;
+	bool shield;
+	SDL_Rect currentCharPosition;
+	string currentCharDirection;
+
+	vector <bullet> bulletCharacter;
+
+	AllCharacters(SDL_Renderer* render);
 };
 
 #endif characters_h_
