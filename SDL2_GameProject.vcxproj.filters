@@ -50,5 +50,8 @@
     <ClCompile Include="monsters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
