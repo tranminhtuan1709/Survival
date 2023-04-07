@@ -29,7 +29,7 @@ public:
 	int mapNumber;
 	vector <Item> itemOnScreen;
 	MapGame(SDL_Renderer* render);
-	void display(SDL_Renderer* render, AllCharacters& characters);
+	void display(SDL_Renderer* render, AllCharacters& characters, AllMonsters& monsters);
 };
 
 #endif map_h_

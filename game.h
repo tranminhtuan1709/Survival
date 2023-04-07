@@ -4,7 +4,7 @@
 
 #include "characters.h"
 
-void calculateAlpha(bullet& bull, SDL_Point p1, SDL_Point p2, SDL_RendererFlip flip);
+void calculateAlpha(bullet& bull, SDL_Point p1, SDL_Point p2, int flip);
 bool cooldown(int& previousTime, int delayFrameTime);
 bool checkCollision(SDL_Rect a, SDL_Rect b);
 void run(AllCharacters& characters, SDL_Renderer* render, SDL_Event& e);

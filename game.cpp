@@ -2,9 +2,9 @@
 
 const Uint8* keyState = SDL_GetKeyboardState(nullptr);
 
-void calculateAlpha(bullet& bull, SDL_Point p1, SDL_Point p2, SDL_RendererFlip flip)
+void calculateAlpha(bullet& bull, SDL_Point p1, SDL_Point p2, int flip)
 {
-	flip == SDL_FLIP_NONE ? bull.alpha = atan((1.0 * p2.y - 1.0 * p1.y) / (1.0 * p2.x - 1.0 * p1.x)) : bull.alpha = atan((1.0 * p2.y - 1.0 * p1.y) / (1.0 * p2.x - 1.0 * p1.x)) - 3.141592654;
+	flip == 0 ? bull.alpha = atan((1.0 * p2.y - 1.0 * p1.y) / (1.0 * p2.x - 1.0 * p1.x)) : bull.alpha = atan((1.0 * p2.y - 1.0 * p1.y) / (1.0 * p2.x - 1.0 * p1.x)) - 3.141592654;
 }
 
 bool checkCollision(SDL_Rect a, SDL_Rect b)
@@ -36,21 +36,17 @@ void run(AllCharacters& characters, SDL_Renderer* render, SDL_Event& e)
 			if (keyState[SDL_SCANCODE_A])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_HORIZONTAL;
 				characters.char1.checkFrameRun = true;
-				characters.currentCharDirection = "left";
 				characters.currentCharPosition.x = max(0, characters.currentCharPosition.x - characters.char1.speed);
 			}
 			if (keyState[SDL_SCANCODE_D])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_NONE;
 				characters.char1.checkFrameRun = true;
-				characters.currentCharDirection = "right";
 				characters.currentCharPosition.x = min(SCREEN_WIDTH - 50, characters.currentCharPosition.x + characters.char1.speed);
 			}
-		}
-		if (characters.flip == SDL_FLIP_HORIZONTAL)
-		{
-			characters.flip = SDL_FLIP_HORIZONTAL;
 		}
 		if (characters.char1.checkFrameRun == true)
 		{
@@ -79,21 +75,17 @@ void run(AllCharacters& characters, SDL_Renderer* render, SDL_Event& e)
 			if (keyState[SDL_SCANCODE_A])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_HORIZONTAL;
 				characters.char2.checkFrameRun = true;
-				characters.currentCharDirection = "left";
 				characters.currentCharPosition.x = max(0, characters.currentCharPosition.x - characters.char2.speed);
 			}
 			if (keyState[SDL_SCANCODE_D])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_NONE;
 				characters.char2.checkFrameRun = true;
-				characters.currentCharDirection = "right";
 				characters.currentCharPosition.x = min(SCREEN_WIDTH - 50, characters.currentCharPosition.x + characters.char2.speed);
 			}
-		}
-		if (characters.flip == SDL_FLIP_HORIZONTAL)
-		{
-			characters.flip = SDL_FLIP_HORIZONTAL;
 		}
 		if (characters.char2.checkFrameRun == true)
 		{
@@ -122,21 +114,17 @@ void run(AllCharacters& characters, SDL_Renderer* render, SDL_Event& e)
 			if (keyState[SDL_SCANCODE_A])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_HORIZONTAL;
 				characters.char3.checkFrameRun = true;
-				characters.currentCharDirection = "left";
 				characters.currentCharPosition.x = max(0, characters.currentCharPosition.x - characters.char3.speed);
 			}
 			if (keyState[SDL_SCANCODE_D])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_NONE;
 				characters.char3.checkFrameRun = true;
-				characters.currentCharDirection = "right";
 				characters.currentCharPosition.x = min(SCREEN_WIDTH - 50, characters.currentCharPosition.x + characters.char3.speed);
 			}
-		}
-		if (characters.flip == SDL_FLIP_HORIZONTAL)
-		{
-			characters.flip = SDL_FLIP_HORIZONTAL;
 		}
 		if (characters.char3.checkFrameRun == true)
 		{
@@ -165,21 +153,17 @@ void run(AllCharacters& characters, SDL_Renderer* render, SDL_Event& e)
 			if (keyState[SDL_SCANCODE_A])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_HORIZONTAL;
 				characters.char4.checkFrameRun = true;
-				characters.currentCharDirection = "left";
 				characters.currentCharPosition.x = max(0, characters.currentCharPosition.x - characters.char4.speed);
 			}
 			if (keyState[SDL_SCANCODE_D])
 			{
 				press = true;
+				characters.flip = SDL_FLIP_NONE;
 				characters.char4.checkFrameRun = true;
-				characters.currentCharDirection = "right";
 				characters.currentCharPosition.x = min(SCREEN_WIDTH - 50, characters.currentCharPosition.x + characters.char4.speed);
 			}
-		}
-		if (characters.flip == SDL_FLIP_HORIZONTAL)
-		{
-			characters.flip = SDL_FLIP_HORIZONTAL;
 		}
 		if (characters.char4.checkFrameRun == true)
 		{
@@ -231,7 +215,7 @@ void anemoAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char1.normalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char1.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char1.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 			if (characters.bulletCharacter[i].type == "E1")
 			{
@@ -246,7 +230,7 @@ void anemoAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char1.elementalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char1.elementalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char1.elementalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 			if (characters.bulletCharacter[i].type == "Q1")
 			{
@@ -289,7 +273,7 @@ void anemoAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 		}
 		else
 		{
-			characters.flip == SDL_FLIP_HORIZONTAL;
+			characters.flip = SDL_FLIP_HORIZONTAL;
 			bull.flip = SDL_FLIP_HORIZONTAL;
 			bull.currentBulletPos = { characters.currentCharPosition.x, characters.currentCharPosition.y + 25, 20, 10 };
 		}
@@ -310,7 +294,7 @@ void anemoAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 		}
 		else
 		{
-			characters.flip == SDL_FLIP_HORIZONTAL;
+			characters.flip = SDL_FLIP_HORIZONTAL;
 			bull.flip = SDL_FLIP_HORIZONTAL;
 			bull.currentBulletPos = { characters.currentCharPosition.x, characters.currentCharPosition.y + 25, 50, 50 };
 		}
@@ -366,7 +350,7 @@ void electroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point do
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char2.normalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char2.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char2.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 		}
 		else if (characters.bulletCharacter[i].type == "E2")
@@ -414,12 +398,11 @@ void electroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point do
 	}
 	if (e.type == SDL_MOUSEBUTTONDOWN && cooldown(characters.char2.previousTimeN, 0) == true)
 	{
-		cout << "fire" << endl;
 		bullet bull;
 		bull.type = "N2";
 		bull.damage = characters.char2.atk * 2 / 3 + characters.baseATK;
 		bull.delayFrameTime = 10;
-		bull.d = 4;
+		bull.d = 20;
 		if (characters.currentCharPosition.x <= dot.x)
 		{
 			characters.flip = SDL_FLIP_NONE;
@@ -485,7 +468,7 @@ void hydroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char3.normalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char3.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char3.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 		}
 		else if (characters.bulletCharacter[i].type == "E3")
@@ -543,7 +526,7 @@ void hydroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot,
 		bull.type = "N3";
 		bull.damage = characters.char3.atk + characters.baseATK;
 		bull.delayFrameTime = 10;
-
+		bull.d = 20;
 		if (characters.currentCharPosition.x <= dot.x)
 		{
 			characters.flip = SDL_FLIP_NONE;
@@ -664,7 +647,7 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char4.normalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char4.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char4.normalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 			else if (characters.bulletCharacter[i].type == "E4")
 			{
@@ -679,7 +662,7 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char4.elementalFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char4.elementalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char4.elementalFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 			else if (characters.bulletCharacter[i].type == "Q4")
 			{
@@ -694,7 +677,7 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 					characters.bulletCharacter[i].currentFrame = (characters.bulletCharacter[i].currentFrame + 1) % (int)characters.char4.ultiFrame.size();
 					characters.bulletCharacter[i].checkFrame = false;
 				}
-				SDL_RenderCopyEx(render, characters.char4.ultiFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, characters.bulletCharacter[i].flip);
+				SDL_RenderCopyEx(render, characters.char4.ultiFrame[characters.bulletCharacter[i].currentFrame], NULL, &characters.bulletCharacter[i].currentBulletPos, characters.bulletCharacter[i].alpha * 180 / 3.141592654, NULL, SDL_FLIP_NONE);
 			}
 		}
 	}
@@ -708,7 +691,7 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 		bull.type = "N4";
 		bull.damage = characters.char4.atk + characters.baseATK;
 		bull.delayFrameTime = 10;
-		bull.d = 4;
+		bull.d = 20;
 		if (characters.currentCharPosition.x <= dot.x)
 		{
 			characters.flip = SDL_FLIP_NONE;
@@ -729,7 +712,7 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 		bull.type = "E4";
 		bull.damage = characters.char4.atk * 3 / 2 + characters.baseATK;
 		bull.delayFrameTime = 10;
-		bull.d = 4;
+		bull.d = 20;
 		if (characters.currentCharPosition.x <= dot.x)
 		{
 			characters.flip = SDL_FLIP_NONE;
@@ -750,8 +733,8 @@ void pyroAttack(AllCharacters& characters, SDL_Renderer* render, SDL_Point dot, 
 		bull.type = "Q4";
 		bull.damage = characters.char4.atk * 2 + characters.baseATK;
 		bull.delayFrameTime = 10;
-		bull.d = 4;
-		if (characters.currentCharPosition.x<= dot.x)
+		bull.d = 15;
+		if (characters.currentCharPosition.x <= dot.x)
 		{
 			characters.flip = SDL_FLIP_NONE;
 			bull.currentBulletPos = { characters.currentCharPosition.x + 50, characters.currentCharPosition.y + 25, 50, 40 };

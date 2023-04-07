@@ -21,9 +21,9 @@ anemoChar::anemoChar()
 {
 	isAlive = true;
 	HP = 2000;
-	atk = 3000;
-	def = 20;
-	speed = 5;
+	atk = 100;
+	def = 10;
+	speed = 10;
 	currentFrameHP = 0;
 	previousTimeN = SDL_GetTicks();
 	previousTimeE = SDL_GetTicks();
@@ -57,9 +57,9 @@ electroChar::electroChar()
 {
 	isAlive = true;
 	HP = 2000;
-	atk = 3000;
-	def = 20;
-	speed = 5;
+	atk = 100;
+	def = 10;
+	speed = 10;
 	currentFrameHP = 0;
 	previousTimeN = SDL_GetTicks();
 	previousTimeE = SDL_GetTicks();
@@ -93,9 +93,9 @@ hydroChar::hydroChar()
 {
 	isAlive = true;
 	HP = 2000;
-	atk = 3000;
-	def = 20;
-	speed = 5;
+	atk = 100;
+	def = 10;
+	speed = 10;
 	currentFrameHP = 0;
 	previousTimeN = SDL_GetTicks();
 	previousTimeE = SDL_GetTicks();
@@ -129,9 +129,9 @@ pyroChar::pyroChar()
 {
 	isAlive = true;
 	HP = 2000;
-	atk = 3000;
-	def = 20;
-	speed = 5;
+	atk = 100;
+	def = 10;
+	speed = 10;
 	currentFrameHP = 0;
 	previousTimeN = SDL_GetTicks();
 	previousTimeE = SDL_GetTicks();
@@ -171,8 +171,8 @@ AllCharacters::AllCharacters(SDL_Renderer* render)
 	currentCharHP = &char1.HP;
 	currentCharPosition = { 0, 0, 50, 50 };
 	currentCharDirection = "right";
-	baseATK = 5;
-	baseDEF = 5;
+	baseATK = 10;
+	baseDEF = 10;
 	shield = false;
 	allDied = IMG_LoadTexture(render, "Image/ghost.png");
 	flip = SDL_FLIP_NONE;

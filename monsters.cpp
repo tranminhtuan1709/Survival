@@ -70,6 +70,8 @@ AllMonsters::AllMonsters(SDL_Renderer* render)
 	mons7.loadData(render);
 	mons8.loadData(render);
 	bulletMons = IMG_LoadTexture(render, "Image/Monsters/bullet.png");
+	hp1 = IMG_LoadTexture(render, "Image/hp1.png");
+	hp2 = IMG_LoadTexture(render, "Image/hp2.png");
 }
 
 MonsterInformation::MonsterInformation()
@@ -81,6 +83,7 @@ MonsterInformation::MonsterInformation()
 	startTime = SDL_GetTicks();
 	existTime = 0;
 	currentFrameHP = 0;
+	numberFrameDie = 0;
 	previousFrameTimeRun = SDL_GetTicks(); delayFrameTimeRun = 10; currentFrameRun = 0;
 	previousFrameTimeDie = SDL_GetTicks(); delayFrameTimeDie = 10; currentFrameDie = 0;
 	previousFrameTimeAttack = SDL_GetTicks(); delayFrameTimeAttack = 10; currentFrameAttack = 0;
@@ -90,11 +93,12 @@ MonsterInformation::MonsterInformation()
 	type = "";
 	checkFrame = false;
 	isChasing = true;
+	isAlive = true;
 }
 
 void randomMonster(AllMonsters& monsters, int monsType)
 {
-	if (cooldown(monsters.previousRandomTime, 500) == false)
+	if (cooldown(monsters.previousRandomTime, 300) == false)
 	{
 		return;
 	}
@@ -102,44 +106,54 @@ void randomMonster(AllMonsters& monsters, int monsType)
 	MonsterInformation monsInfor;
 	if (monsType == 1)
 	{
-		monsInfor.HP = 300;
-		monsInfor.atk = 2;
+		monsInfor.HP = 500;
+		monsInfor.maxHP = 500;
+		monsInfor.atk = 4;
 		monsInfor.def = 10;
 		monsInfor.speed = (rand() % 3) + 1;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 60, 60 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 60, 60 };
 		monsInfor.direction = "right";
 		monsInfor.type = "green_dinosaur";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
+		monsInfor.numberFrameDie = monsters.mons1.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 2)
 	{
 		monsInfor.HP = 300;
-		monsInfor.atk = 1;
+		monsInfor.maxHP = 300;
+		monsInfor.atk = 2;
 		monsInfor.def = 10;
 		monsInfor.speed = (rand() % 2) + 1;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 30, 30 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 30, 30 };
 		monsInfor.direction = "right";
 		monsInfor.type = "mushroom";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
+		monsInfor.numberFrameDie = monsters.mons2.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 3)
 	{
-		monsInfor.HP = 300;
-		monsInfor.atk = 3;
+		monsInfor.HP = 500;
+		monsInfor.maxHP = 500;
+		monsInfor.atk = 4;
 		monsInfor.def = 10;
 		monsInfor.speed = (rand() % 3) + 1;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 60, 60 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 60, 60 };
 		monsInfor.direction = "right";
 		monsInfor.type = "red_dinosaur";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
 		monsInfor.delayFrameTimeAttack = 60;
+		monsInfor.numberFrameDie = monsters.mons3.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 4)
 	{
-		monsInfor.HP = 300;
+		monsInfor.HP = 500;
+		monsInfor.maxHP = 500;
 		monsInfor.atk = 2;
 		monsInfor.def = 10;
 		monsInfor.speed = 20;
@@ -148,81 +162,58 @@ void randomMonster(AllMonsters& monsters, int monsType)
 		monsInfor.position.x == 0 ? monsInfor.flip = SDL_FLIP_NONE : monsInfor.flip = SDL_FLIP_HORIZONTAL;
 		monsInfor.type = "pterosaurs";
 		monsInfor.delayFrameTimeRun = 30;
+		monsInfor.delayFrameTimeDie = 30;
+		monsInfor.numberFrameDie = monsters.mons4.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 5)
 	{
 		monsInfor.HP = 600;
-		monsInfor.atk = 3;
+		monsInfor.maxHP = 600;
+		monsInfor.atk = 4;
 		monsInfor.def = 10;
 		monsInfor.speed = (rand() % 2) + 1;
 		monsInfor.flip = SDL_FLIP_NONE;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 60, 60 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 60, 60 };
 		monsInfor.direction = "right";
 		monsInfor.type = "robot";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
 		monsInfor.delayFrameTimeAttack = 2000;
+		monsInfor.numberFrameDie = monsters.mons5.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 6)
 	{
 		monsInfor.HP = 600;
+		monsInfor.maxHP = 600;
 		monsInfor.atk = 2;
 		monsInfor.def = 10;
 		monsInfor.speed = 1;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 60, 60 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 60, 60 };
 		monsInfor.direction = "right";
 		monsInfor.type = "machine";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
 		monsInfor.delayFrameTimeAttack = 4000;
+		monsInfor.numberFrameDie = monsters.mons6.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
 	}
 	if (monsType == 7)
 	{
-		monsInfor.HP = 600;
-		monsInfor.atk = 5;
+		monsInfor.HP = 500;
+		monsInfor.maxHP = 500;
+		monsInfor.atk = 6;
 		monsInfor.def = 10;
 		monsInfor.speed = (rand() % 2) + 1;
-		monsInfor.position = { rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, 60, 60 };
+		monsInfor.position = { (rand() + (int)SDL_GetTicks()) % SCREEN_WIDTH, (rand() + (int)SDL_GetTicks()) % SCREEN_HEIGHT, 60, 60 };
 		monsInfor.direction = "right";
 		monsInfor.type = "cyborg";
 		monsInfor.delayFrameTimeRun = 40;
+		monsInfor.delayFrameTimeDie = 30;
 		monsInfor.delayFrameTimeAttack = 100;
+		monsInfor.numberFrameDie = monsters.mons7.dieFrame.size() - 1;
 		monsters.monsterOnScreen.push_back(monsInfor);
-	}
-	if (monsType == 8 && monsters.mons8.checkRandom == true)
-	{
-		MonsterInformation temp1;
-		MonsterInformation temp2;
-		MonsterInformation temp3;
-		MonsterInformation temp4;
-		temp1.atk = 10;
-		temp2.atk = 10;
-		temp3.atk = 10;
-		temp4.atk = 10;
-		temp1.position = { 0, 200, 100, 60 };
-		temp2.position = { 0, 600, 100, 60 };
-		temp3.position = { 1700, 400, 100, 60 };
-		temp4.position = { 1700, 800, 100, 60 };
-		temp3.flip = SDL_FLIP_HORIZONTAL;
-		temp4.flip = SDL_FLIP_HORIZONTAL;
-		temp1.delayFrameTimeAttack = 5000;
-		temp2.delayFrameTimeAttack = 5000;
-		temp3.delayFrameTimeAttack = 5000;
-		temp4.delayFrameTimeAttack = 5000;
-		temp1.type = "canon";
-		temp2.type = "canon";
-		temp3.type = "canon";
-		temp4.type = "canon";
-		temp1.HP = 1;
-		temp2.HP = 2;
-		temp3.HP = 3;
-		temp4.HP = 4;
-		monsters.monsterOnScreen.push_back(temp1);
-		monsters.monsterOnScreen.push_back(temp2);
-		monsters.monsterOnScreen.push_back(temp3);
-		monsters.monsterOnScreen.push_back(temp4);
-		monsters.mons8.checkRandom = false;
 	}
 }
 
@@ -230,6 +221,10 @@ void chase(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* rende
 {
 	for (int i = 0; i < monsters.monsterOnScreen.size(); i++)
 	{
+		if (monsters.monsterOnScreen[i].isAlive == false)
+		{
+			continue;
+		}
 		if (monsters.monsterOnScreen[i].position.x < 0 || monsters.monsterOnScreen[i].position.x + monsters.monsterOnScreen[i].position.w > SCREEN_WIDTH || monsters.monsterOnScreen[i].position.y <= 0 || monsters.monsterOnScreen[i].position.y >= SCREEN_HEIGHT)
 		{
 			monsters.monsterOnScreen.erase(monsters.monsterOnScreen.begin() + i, monsters.monsterOnScreen.begin() + i + 1);
@@ -370,7 +365,7 @@ void beAttacked(AllMonsters& monsters, AllCharacters& characters)
 	{
 		for (int j = 0; j < monsters.monsterOnScreen.size(); j++)
 		{
-			if (monsters.monsterOnScreen[j].type != "canon")
+			if (monsters.monsterOnScreen[j].type != "canon" && monsters.monsterOnScreen[j].isAlive == true)
 			{
 				if (characters.bulletCharacter[i].type == "N1" || characters.bulletCharacter[i].type == "N2" || characters.bulletCharacter[i].type == "N3" || characters.bulletCharacter[i].type == "N4" || characters.bulletCharacter[i].type == "E1" || characters.bulletCharacter[i].type == "E4")
 				{
@@ -401,16 +396,19 @@ void beAttacked(AllMonsters& monsters, AllCharacters& characters)
 
 void attack(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* render)
 {
-	
 	for (int i = 0; i < monsters.monsterOnScreen.size(); i++)
 	{
+		if (monsters.monsterOnScreen[i].isAlive == false)
+		{
+			continue;
+		}
 		if (monsters.monsterOnScreen[i].type == "red_dinosaur")
 		{
 			if (checkCollision(monsters.monsterOnScreen[i].position, characters.currentCharPosition) == true)
 			{
 				monsters.monsterOnScreen[i].isChasing = false;
 				monsters.monsterOnScreen[i].checkFrame = false;
-				*characters.currentCharHP -= monsters.monsterOnScreen[i].atk;
+				*characters.currentCharHP -= (int)(1.0 * monsters.monsterOnScreen[i].atk * 1.0 * (100 - characters.baseDEF) / 100);
 			}
 			if (monsters.monsterOnScreen[i].isChasing == false)
 			{
@@ -435,7 +433,7 @@ void attack(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* rend
 			{
 				monsters.monsterOnScreen[i].isChasing = false;
 				monsters.monsterOnScreen[i].checkFrame = false;
-				*characters.currentCharHP -= monsters.monsterOnScreen[i].atk;
+				*characters.currentCharHP -= (int)(1.0 * monsters.monsterOnScreen[i].atk * 1.0 * (100 - characters.baseDEF) / 100);
 			}
 			if (monsters.monsterOnScreen[i].isChasing == false)
 			{
@@ -458,7 +456,7 @@ void attack(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* rend
 		{
 			if (checkCollision(monsters.monsterOnScreen[i].position, characters.currentCharPosition) == true)
 			{
-				*characters.currentCharHP -= monsters.monsterOnScreen[i].atk;
+				*characters.currentCharHP -= (int)(1.0 * monsters.monsterOnScreen[i].atk * 1.0 * (100 - characters.baseDEF) / 100);
 			}
 		}
 		if (monsters.monsterOnScreen[i].type == "machine" || monsters.monsterOnScreen[i].type == "robot")
@@ -494,7 +492,7 @@ void attack(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* rend
 				SDL_RenderCopyEx(render, monsters.mons8.frame[1], NULL, &monsters.bulletMonster[i].currentBulletPos, 0, NULL, monsters.bulletMonster[i].flip);
 			}
 			else
-			{
+			{	
 				SDL_RenderCopyEx(render, monsters.bulletMons, NULL, &monsters.bulletMonster[i].currentBulletPos, 0, NULL, monsters.bulletMonster[i].flip);
 			}
 			if (monsters.bulletMonster[i].flip == SDL_FLIP_NONE)
@@ -508,20 +506,73 @@ void attack(AllMonsters& monsters, AllCharacters& characters, SDL_Renderer* rend
 			if (checkCollision(monsters.bulletMonster[i].currentBulletPos, characters.currentCharPosition) == true)
 			{
 				monsters.bulletMonster[i].checkExist = false;
-				*characters.currentCharHP -= monsters.bulletMonster[i].damage;
+				*characters.currentCharHP -= (int)(1.0 * monsters.bulletMonster[i].damage * 1.0 * (100 - characters.baseDEF) / 100);
 			}
-		}
-	}
-	for (int i = 0; i < monsters.bulletMonster.size(); i++)
-	{
-		if (checkCollision(monsters.bulletMonster[i].currentBulletPos, characters.currentCharPosition) == true)
-		{
-			*characters.currentCharHP -= monsters.bulletMonster[i].damage;
 		}
 	}
 }
 
 void updateHPMonsters(AllMonsters& monsters, SDL_Renderer* render)
 {
+	for (int i = 0; i < monsters.monsterOnScreen.size(); i++)
+	{
+		if (monsters.monsterOnScreen[i].type != "canon")
+		{
+			int percentHP{};
+			if (monsters.monsterOnScreen[i].HP <= 0)
+			{
+				percentHP = 0;
+			}
+			else
+			{
+				percentHP = (int)monsters.monsterOnScreen[i].HP * 100 / monsters.monsterOnScreen[i].maxHP;
+			}
+			SDL_Rect total = { monsters.monsterOnScreen[i].position.x, monsters.monsterOnScreen[i].position.y - 10, monsters.monsterOnScreen[i].position.w, 5 };
+			SDL_Rect left = { monsters.monsterOnScreen[i].position.x, monsters.monsterOnScreen[i].position.y - 10, (int)(monsters.monsterOnScreen[i].position.w * percentHP / 100), 5 };
+			SDL_RenderCopy(render, monsters.hp1, NULL, &total);
+			SDL_RenderCopy(render, monsters.hp2, NULL, &left);
+		}
+	}
+}
 
+void monsterDie(AllMonsters& monsters, SDL_Renderer* render)
+{
+	for (int i = 0; i < monsters.monsterOnScreen.size(); i++)
+	{
+		if (monsters.monsterOnScreen[i].HP <= 0)
+		{
+			monsters.monsterOnScreen[i].isAlive = false;
+		}
+	}
+	for (int i = 0; i < monsters.monsterOnScreen.size(); i++)
+	{
+		if (monsters.monsterOnScreen[i].isAlive == false)
+		{
+			monsters.monsterOnScreen[i].checkFrame = false;
+			if (cooldown(monsters.monsterOnScreen[i].previousFrameTimeDie, monsters.monsterOnScreen[i].delayFrameTimeDie) == true)
+			{
+				monsters.monsterOnScreen[i].checkFrame = true;
+			}
+			if (monsters.monsterOnScreen[i].checkFrame == true)
+			{
+				monsters.monsterOnScreen[i].currentFrameDie++;
+				monsters.monsterOnScreen[i].checkFrame = false;
+			}
+			if (monsters.monsterOnScreen[i].currentFrameDie > monsters.monsterOnScreen[i].numberFrameDie)
+			{
+				monsters.monsterOnScreen.erase(monsters.monsterOnScreen.begin() + i, monsters.monsterOnScreen.begin() + i + 1);
+				i--;
+			}
+			else
+			{
+				if (monsters.monsterOnScreen[i].type == "green_dinosaur") SDL_RenderCopyEx(render, monsters.mons1.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "mushroom") SDL_RenderCopyEx(render, monsters.mons2.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "red_dinosaur") SDL_RenderCopyEx(render, monsters.mons3.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "pterosaurs") SDL_RenderCopyEx(render, monsters.mons4.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "robot") SDL_RenderCopyEx(render, monsters.mons5.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "machine") SDL_RenderCopyEx(render, monsters.mons6.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+				if (monsters.monsterOnScreen[i].type == "cyborg") SDL_RenderCopyEx(render, monsters.mons7.dieFrame[monsters.monsterOnScreen[i].currentFrameDie], NULL, &monsters.monsterOnScreen[i].position, 0, NULL, monsters.monsterOnScreen[i].flip);
+			}
+		}
+	}
 }

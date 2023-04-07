@@ -82,12 +82,14 @@ class MonsterInformation
 {
 public:
 	int HP;
+	int maxHP;
 	int atk;
 	int def;
 	int speed;
 	int startTime;
 	int existTime;
 	int currentFrameHP;
+	int numberFrameDie;
 	int previousFrameTimeRun; int delayFrameTimeRun; int currentFrameRun;
 	int previousFrameTimeDie; int delayFrameTimeDie; int currentFrameDie;
 	int previousFrameTimeAttack; int delayFrameTimeAttack; int currentFrameAttack;
@@ -97,6 +99,7 @@ public:
 	string type;
 	bool checkFrame;
 	bool isChasing;
+	bool isAlive;
 	MonsterInformation();
 };
 
@@ -114,6 +117,8 @@ public:
 
 	int previousRandomTime = SDL_GetTicks();
 	SDL_Texture* bulletMons;
+	SDL_Texture* hp1;
+	SDL_Texture* hp2;
 	vector <MonsterInformation> monsterOnScreen;
 	vector <bullet> bulletMonster;
 
