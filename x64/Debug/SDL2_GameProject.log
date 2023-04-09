@@ -1,4 +1,0 @@
-﻿  game.cpp
-F:\Code\SDL2_GameProject\SDL2_GameProject\game.cpp(271,20): warning C4553: '==': result of expression not used; did you intend '='?
-F:\Code\SDL2_GameProject\SDL2_GameProject\game.cpp(292,20): warning C4553: '==': result of expression not used; did you intend '='?
-  SDL2_GameProject.vcxproj -> F:\Code\SDL2_GameProject\x64\Debug\SDL2_GameProject.exe
