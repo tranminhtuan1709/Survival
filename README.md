@@ -12,8 +12,7 @@ You are provided with 4 characters with different skills. Your task is to surviv
     2. Unzip the downloaded folder and open it. Select the folder x64 -> Debug and open the file SDL2_GameProject.exe to play the game
 
 
-+ HOW TO PLAY
-         *Task: Dodge, attack and pick up items on the map
++ HOW TO PLAY : Dodge, attack and pick up items on the map
     - A, W, S, D  : move
     - E           : use special skill
     - Q           : ulti
