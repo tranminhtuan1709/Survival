@@ -13,7 +13,7 @@ You are provided with 4 characters with different skills. Your task is to surviv
 
 
 + HOW TO PLAY
-Task: Dodge, attack and pick up items on the map
+*Task: Dodge, attack and pick up items on the map
     - A, W, S, D  : move
     - E           : use special skill
     - Q           : ulti
