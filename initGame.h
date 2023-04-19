@@ -1,3 +1,4 @@
+#pragma once
 #ifndef initGame_h_
 #define initGame_h_
 
@@ -21,7 +22,7 @@ using namespace std;
 const int SCREEN_WIDTH = 1400;
 const int SCREEN_HEIGHT = 800;
 
-class Game
+class App
 {
 public:
 	int imgInitFlags = IMG_INIT_PNG;
@@ -30,20 +31,26 @@ public:
 	int currentAppTime;
 	SDL_Window* window = nullptr;
 	SDL_Renderer* pen = nullptr;
-	SDL_Texture* welcom_screen = nullptr;
 	SDL_Point mouseCoordinate = { 0, 0 };
-
-	Game();
-	~Game();
+	App();
+	~App();
 	bool checkInit();
 };
 
-class Line
+class Delay
 {
 public:
-	double a;
-	double b;
-	double alpha;
+	vector <int> previousFrameTime;
+	vector <int> delayFrameTime;
+	vector <int> currentFrame;
+	vector <bool> checkFrame;
+	vector <int> previousSkillTime;
+	vector <int> delaySkillTime;
+	vector <int> previousRandomTime;
+	vector <int> delayRandomTime;
+	vector <int> previousLockTargetTime;
+	vector <int> delayLockTargetTime;
+	void initData(int size1, int size2, int size3, int size4, int size5, int size6, int size7, int size8, int size9, int size10);
 };
 
 void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render);

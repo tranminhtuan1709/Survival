@@ -1,35 +1,29 @@
+#pragma once
 #ifndef map_h_
 #define map_h_
 
 #include "initGame.h"
-#include "monsters.h"
-#include "game.h"
-#include "characters.h"
 
 class Item
 {
 public:
 	SDL_Rect position;
-	int type;
+	int startTime;
+	int existTime;
 	int previousFrameTime;
 	double angle;
-	int existTime;
-	int startTime;
-	Item(SDL_Rect pos, int t, int x);
+	Item(SDL_Rect _position, int _startTime, int _existTime, double _angle);
 };
 
 class MapGame
 {
 public:
+	int previousRandomItemTime;
+	int currentMap;
 	vector <SDL_Texture*> mapFrame;
 	vector <SDL_Texture*> itemFrame;
-	vector <SDL_Texture*> otherFrame;
-	int randomItemTime;
-	int randomItemType;
-	int mapNumber;
-	vector <Item> itemOnScreen;
+	vector <vector <Item>> itemOnScreen;
 	MapGame(SDL_Renderer* render);
-	void display(SDL_Renderer* render, AllCharacters& characters, AllMonsters& monsters);
 };
 
 #endif map_h_
