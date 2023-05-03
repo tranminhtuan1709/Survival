@@ -16,6 +16,7 @@
 #include <time.h>
 #include <cstdlib>
 #include <stdlib.h>
+#include <stack>
 
 using namespace std;
 
@@ -25,15 +26,16 @@ const int SCREEN_HEIGHT = 800;
 class App
 {
 public:
-	int imgInitFlags = IMG_INIT_PNG;
-	int sdlInitResult;
-	int imgInitResult;
+	int IMGinitFlags = IMG_INIT_PNG;
+	int SDLinitResult;
+	int IMGinitResult;
+	int TTFinitResult;
+	int MIXinitResult;
 	int currentAppTime;
 	SDL_Window* window = nullptr;
 	SDL_Renderer* pen = nullptr;
 	SDL_Point mouseCoordinate = { 0, 0 };
 	App();
-	~App();
 	bool checkInit();
 };
 
@@ -54,5 +56,9 @@ public:
 };
 
 void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render);
+TTF_Font* loadFont(string path, int size);
+Mix_Chunk* loadChunk(string path);
+Mix_Music* loadMusic(string path);
+SDL_Texture* createTextureFromFont(TTF_Font* font, string sentence, SDL_Color color, SDL_Renderer* render);
 
 #endif initGame_h_

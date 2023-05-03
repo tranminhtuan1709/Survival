@@ -20,6 +20,7 @@ class MapGame
 public:
 	int previousRandomItemTime;
 	int currentMap;
+	string result;
 	vector <SDL_Texture*> mapFrame;
 	vector <SDL_Texture*> itemFrame;
 	vector <vector <Item>> itemOnScreen;

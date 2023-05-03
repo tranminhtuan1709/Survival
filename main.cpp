@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "enum.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +13,9 @@ int main(int argc, char* argv[])
 	AllMonsters monsters(app.pen);
 	MapGame maps(app.pen);
 	BulletOnScreen bulletOnScreen(app.pen);
-	Menu menu(app.pen);
-	menu.play(characters, monsters, maps, bulletOnScreen, app);
-	return 0;		
+	Boss boss(app.pen);
+	Font font(app.pen);
+	Menu menu(app.pen, font);
+	menu.run(characters, monsters, boss, maps, bulletOnScreen, font, app);
+	return 0;
 }

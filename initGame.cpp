@@ -3,51 +3,44 @@
 App::App()
 {
 	currentAppTime = SDL_GetTicks();
-	sdlInitResult = SDL_Init(SDL_INIT_EVERYTHING);
-	imgInitResult = (IMG_Init(imgInitFlags) & imgInitFlags);
+	SDLinitResult = SDL_Init(SDL_INIT_EVERYTHING);
+	IMGinitResult = (IMG_Init(IMGinitFlags) & IMGinitFlags);
+	TTFinitResult = TTF_Init();
+	MIXinitResult = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	window = SDL_CreateWindow("Demo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	pen = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-App::~App()
-{
-	imgInitFlags = 0;
-	sdlInitResult = 0;
-	imgInitResult = 0;
-	currentAppTime = 0;
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(pen);
-}
-
-void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render)
-{
-	for (int i = 1; i <= frameNumber; i++)
-	{
-		string path = s + to_string(i) + ".png";
-		v.push_back(IMG_LoadTexture(render, path.c_str()));
-	}
-}
-
 bool App::checkInit()
 {
-	if (!imgInitResult)
-	{
-		cout << "Error in initialize IMG! Error: " << SDL_GetError() << endl;
-		return false;
-	}
-	if (sdlInitResult < 0)
+	if (SDLinitResult < 0)
 	{
 		cout << "Error in initialize SDL! Error: " << SDL_GetError() << endl;
 		return false;
 	}
+	if (!IMGinitResult)
+	{
+		cout << "Error in initialize IMG! Error: " << IMG_GetError() << endl;
+		return false;
+	}
+	if (TTFinitResult == -1)
+	{
+		cout << "Error in initialize TTF! Error: " << TTF_GetError() << endl;
+		return false;
+	}
+	if (MIXinitResult < 0)
+	{
+		cout << "Error in initialize MIX! Error: " << Mix_GetError() << endl;
+		return false;
+	}
 	if (window == nullptr)
 	{
-		cout << "Error in create window! Error: " << SDL_GetError() << endl;
+		cout << "Error in create Window! Error: " << SDL_GetError() << endl;
 		return false;
 	}
 	if (pen == nullptr)
 	{
-		cout << "Error in create renderer! Error: " << SDL_GetError() << endl;
+		cout << "Error in create Renderer! Error: " << SDL_GetError() << endl;
 		return false;
 	}
 	return true;
@@ -65,4 +58,36 @@ void Delay::initData(int size1, int size2, int size3, int size4, int size5, int 
 	for (int i = 0; i < size8; i++) delayRandomTime.push_back(0);
 	for (int i = 0; i < size9; i++) previousLockTargetTime.push_back(0);
 	for (int i = 0; i < size10; i++) delayLockTargetTime.push_back(0);
+}
+
+void loadImage(vector <SDL_Texture*>& v, string s, int frameNumber, SDL_Renderer* render)
+{
+	for (int i = 1; i <= frameNumber; i++)
+	{
+		string path = s + to_string(i) + ".png";
+		v.push_back(IMG_LoadTexture(render, path.c_str()));
+	}
+}
+
+TTF_Font* loadFont(string path, int size)
+{
+	return TTF_OpenFont(path.c_str(), size);
+}
+
+Mix_Chunk* loadChunk(string path)
+{
+	return Mix_LoadWAV(path.c_str());
+}
+
+Mix_Music* loadMusic(string path)
+{
+	return Mix_LoadMUS(path.c_str());
+}
+
+SDL_Texture* createTextureFromFont(TTF_Font* font, string sentence, SDL_Color color, SDL_Renderer* render)
+{
+	SDL_Surface* surface = TTF_RenderText_Solid(font, sentence.c_str(), color);
+	SDL_Texture* text = SDL_CreateTextureFromSurface(render, surface);
+	SDL_FreeSurface(surface);
+	return text;
 }

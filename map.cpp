@@ -18,4 +18,5 @@ MapGame::MapGame(SDL_Renderer* render)
 	loadImage(itemFrame, "Image/Map/item", 3, render);
 	vector <Item> temp;
 	itemOnScreen = { temp, temp, temp };
+	result = "";
 }

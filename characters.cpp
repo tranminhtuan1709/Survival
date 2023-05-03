@@ -67,8 +67,11 @@ AllCharacters::AllCharacters(SDL_Renderer* render)
 	selectedChar = CHARACTER_1;
 	currentCharHP = new int(2000);
 	shield = false;
+	allDied = false;
 	baseATK = 10;
 	baseDEF = 1;
+	timeWhenDie = 0;
+	timeAfterDie = 1000;
 	position = { 0, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT };
 	flip = SDL_FLIP_NONE;
 	ghost = IMG_LoadTexture(render, "Image/ghost.png");

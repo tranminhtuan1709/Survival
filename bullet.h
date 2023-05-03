@@ -7,6 +7,7 @@
 class Bullet
 {
 public:
+	string type;
 	SDL_Rect position;
 	SDL_Rect boom;
 	double damage;
@@ -14,6 +15,7 @@ public:
 	int startTime; int existTime;
 	bool checkExist;
 	double alpha;
+	double rotate;
 	double d;
 	SDL_RendererFlip flip;
 	Bullet();

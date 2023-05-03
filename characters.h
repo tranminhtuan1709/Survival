@@ -28,8 +28,11 @@ public:
 	int selectedChar;
 	int* currentCharHP;
 	bool shield;
+	bool allDied;
 	double baseATK;
 	double baseDEF;
+	int timeWhenDie;
+	int timeAfterDie;
 	SDL_Rect position;
 	SDL_RendererFlip flip;
 	SDL_Texture* ghost;

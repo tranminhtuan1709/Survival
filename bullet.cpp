@@ -3,6 +3,7 @@
 
 Bullet::Bullet()
 {
+	type = "";
 	position = { 0, 0, 0, 0 };
 	boom = { 0, 0, 0, 0 };
 	damage = 0;
@@ -11,6 +12,7 @@ Bullet::Bullet()
 	existTime = 0;
 	checkExist = true;
 	alpha = 0;
+	rotate = 0;
 	d = 0;
 	flip = SDL_FLIP_NONE;
 }
